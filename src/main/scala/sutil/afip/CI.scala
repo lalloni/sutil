@@ -1,8 +1,10 @@
 package sutil.afip
 
 import scala.util.parsing.combinator.RegexParsers
+
+import CI.{ verifier ⇒ computeVerifier, req }
+import sutil.math.Digit.{ shortdigits, pad, integralCanBeDigit, intdigits, digit2int }
 import sutil.math.Digit
-import sutil.math.Digit._
 
 case class CI(val prefix: Short, val id: Int, val verifier: Digit) {
 
@@ -16,9 +18,9 @@ case class CI(val prefix: Short, val id: Int, val verifier: Digit) {
 
   lazy val computedVerifier = computeVerifier(this)
 
-  override lazy val toString = format("%02d%08d%1d", prefix, id, verifier)
+  override lazy val toString = "%02d%08d%1d" format (prefix, id, verifier)
 
-  lazy val toPrettyString = format("%02d-%08d-%1d", prefix, id, verifier)
+  lazy val toPrettyString = "%02d-%08d-%1d" format (prefix, id, verifier)
 
   lazy val digits =
     (pad(prefix, 2).reverse ++ pad(id, 8).reverse :+ verifier).reverse
@@ -28,10 +30,10 @@ case class CI(val prefix: Short, val id: Int, val verifier: Digit) {
 object CI {
 
   private def req(condition: String, received: Any): String =
-    format("CI: %s but '%s' was received", condition, received)
+    "CI: %s but '%s' was received" format (condition, received)
 
   private def req(condition: String, expected: Any, received: Any): String =
-    format("CI: %s '%s' was received while expecting '%s'", condition, received, expected)
+    "CI: %s '%s' was received while expecting '%s'" format (condition, received, expected)
 
   private object Parser extends RegexParsers {
 
@@ -47,7 +49,7 @@ object CI {
 
     def parse(code: String): CI = parse(ci, code) match {
       case Success(ci, _) ⇒ ci
-      case n: NoSuccess   ⇒ throw error(n.toString)
+      case n: NoSuccess   ⇒ sys.error(n.toString)
     }
 
   }
@@ -69,36 +71,6 @@ object CI {
       case 1 ⇒ Digit(9)
       case x ⇒ Digit(11 - x)
     }
-  }
-
-}
-
-object Test {
-
-  def check(ci: CI, pre: Byte, id: Int, ver: Digit) = {
-    assert(ci.prefix == pre)
-    assert(ci.id == id)
-    assert(ci.verifier == ver)
-  }
-
-  def main(args: Array[String]): Unit = {
-
-    assert(CI.verifier(CI(20, 24264377, 2.toDigit)).toInt == 2)
-
-    val cuit1 = CI(20242643772l)
-    check(cuit1, 20, 24264377, 2.toDigit)
-
-    val cuit2 = CI("20242643772")
-    check(cuit2, 20, 24264377, 2.toDigit)
-
-    val cuit3 = CI("20-24264377-2")
-    check(cuit3, 20, 24264377, 2.toDigit)
-
-    val cuit4 = CI(20, 24264377, 2.toDigit)
-    check(cuit4, 20, 24264377, 2.toDigit)
-
-    println(Seq(cuit1, cuit2, cuit3, cuit4, CI(20, 11111111, 2.toDigit), CI(20, 00000000, 1.toDigit)))
-
   }
 
 }
