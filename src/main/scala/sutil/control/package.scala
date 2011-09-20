@@ -15,7 +15,8 @@ package object control {
 
   implicit def using[T](some: T): On[T] = new On[T](some)
 
-  def closing[T <: { def close() }](closeable: T)(action: T ⇒ Unit): Unit =
-    try action(closeable) finally closeable.close
+  def closing[T <: { def close() }, R](closeable: T)(action: T ⇒ R): R =
+    try action(closeable)
+    finally closeable.close
 
 }
