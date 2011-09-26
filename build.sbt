@@ -6,8 +6,6 @@ version := "1-SNAPSHOT"
 
 scalaVersion := "2.9.1"
 
-crossScalaVersions := Seq("2.9.1", "2.8.1")
-
 libraryDependencies ++= Seq (
     "org.clapper" %% "grizzled-slf4j" % "0.6.6" % "provided",
     "org.scalaz" %% "scalaz-core" % "6.0.3" % "provided",
