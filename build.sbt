@@ -18,7 +18,7 @@ libraryDependencies ++= Seq (
 
 publishMavenStyle := true
 
-publishTo <<= version { ver => Some(
+publishTo <<= version { ver ⇒ Some(
     Resolver
         .file("Local Repository", file(Path.userHome 
             + "/projects/artifacts/maven-" 

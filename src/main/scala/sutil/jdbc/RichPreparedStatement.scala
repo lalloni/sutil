@@ -1,6 +1,7 @@
 package sutil.jdbc
 
 import java.sql._
+import JDBC._
 
 class RichPreparedStatement(val ps: PreparedStatement) {
 

@@ -3,7 +3,7 @@ package sutil.afip
 import scala.util.parsing.combinator.RegexParsers
 
 import CI.{ verifier ⇒ computeVerifier, req }
-import sutil.math.Digit.{ shortdigits, pad, integralCanBeDigit, intdigits, digit2int }
+import sutil.math.Digit._
 import sutil.math.Digit
 
 case class CI(val prefix: Short, val id: Int, val verifier: Digit) {

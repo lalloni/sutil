@@ -1,12 +1,6 @@
-package sutil
+package sutil.jdbc
 
-package jdbc {
-
-  case class Field(name: String)
-
-}
-
-package object jdbc {
+trait JDBCImports {
 
   import java.sql.{ Statement, ResultSet, PreparedStatement, Connection }
 
@@ -46,3 +40,5 @@ package object jdbc {
   implicit def rich2St(rs: RichStatement) = rs.s
 
 }
+
+

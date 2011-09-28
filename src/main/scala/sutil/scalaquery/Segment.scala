@@ -27,7 +27,10 @@ case class Segment[T](val table: Table[T], val position: Int, val size: Int)(imp
 
 }
 
-object Segment {
+trait SegmentImports {
+
+}
+object Segment  extends SegmentImports {
 
   def table[T](table: Table[T], segments: Int)(implicit dbp: DatabaseProfile): Seq[Segment[T]] = {
     import dbp.profile.Implicit._
