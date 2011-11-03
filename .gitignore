@@ -1,10 +1,5 @@
-.classpath
-.project
-.scala_dependencies
-.settings
+.*
 target
 project/target
 project/boot
-.cache
-.*
 *.iml
