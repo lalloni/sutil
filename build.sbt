@@ -14,7 +14,8 @@ libraryDependencies ++= Seq (
     "joda-time" % "joda-time" % "2.0" % "provided",
     "org.joda" % "joda-convert" % "1.1" % "provided",
     "org.scalatest" %% "scalatest" % "1.6.1" % "test",
-    "ch.qos.logback" % "logback-classic" % "0.9.29" % "test")
+    "ch.qos.logback" % "logback-classic" % "1.0.0" % "test",
+    "junit" % "junit" % "4.8" % "test")
 
 publishMavenStyle := true
 
