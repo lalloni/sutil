@@ -19,11 +19,13 @@ class VersionRangeSpec extends Spec with ShouldMatchers {
   }
 
   describe("ExclusiveVersionRange") {
+
     it("should contain it start limit but not it end limit") {
       val range = VersionNumber(1) until VersionNumber(2, 1)
       range contains VersionNumber(1) should be (true)
       range contains VersionNumber(2, 1) should be (false)
     }
+
   }
 
 }

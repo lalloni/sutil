@@ -2,19 +2,16 @@ package sutil
 
 package object version {
 
-  object V {
+  type V = VersionNumber
+  val V = VersionNumber
+  val Major = VersionNumberPosition.Major
+  val Minor = VersionNumberPosition.Minor
+  val Fix = VersionNumberPosition.Fix
 
-    def apply(numbers: Int*) = VersionNumber(numbers: _*)
-    def unapplySeq(version: VersionNumber) = Some(version.numbers)
+  type M = VersionModifier
+  val M = VersionModifier
 
-    val Major = VersionNumberPosition.Major
-    val Minor = VersionNumberPosition.Minor
-    val Fix = VersionNumberPosition.Fix
-
-  }
-
-  object VP {
-    def unapply(version: VersionNumber): Option[List[Int]] = Some(List(version.numbers: _*))
-  }
+  implicit def stringToVersionModifier(string: String): VersionModifier = Version.parsers.modifier(string)
+  implicit def stringToVersion(string: String): Version = Version.parsers.version(string)
 
 }
