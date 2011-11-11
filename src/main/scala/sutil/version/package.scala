@@ -11,7 +11,7 @@ package object version {
   type M = VersionModifier
   val M = VersionModifier
 
-  implicit def stringToVersionModifier(string: String): VersionModifier = Version.parsers.modifier(string)
-  implicit def stringToVersion(string: String): Version = Version.parsers.version(string)
+  implicit def parseVersionModifier(string: String): VersionModifier = VersionParsers.modifier(string)
+  implicit def parseVersion(string: String): Version = VersionParsers.version(string)
 
 }

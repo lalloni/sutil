@@ -16,7 +16,7 @@ object VersionParsers {
 
     def modifiers = rep1sep(modifier, "-")
 
-    def version = numbers ~ opt(("." | "-") ~> modifiers) ^^ { case nums ~ mods ⇒ Version(nums, mods.getOrElse(Nil)) }
+    def version = numbers ~ opt(("." | "-") ~> modifiers) ^^ { case nums ~ mods ⇒ Version(nums, mods.getOrElse(Nil): _*) }
 
     def get[T](parser: Parser[T], string: String): T =
       parseAll(parser, string) match {

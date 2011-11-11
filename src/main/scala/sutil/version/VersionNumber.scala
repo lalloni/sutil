@@ -6,9 +6,11 @@ case class VersionNumber(numbers: Int*) extends Ordered[VersionNumber] {
   require (!numbers.isEmpty, "Numbers must not be empty.")
   require (!numbers.exists(_ < 0), "Numbers must be positive or zero.")
 
-  def majorNumber = numbers.headOption
-  def minorNumber = numbers.tail.headOption
-  def fixNumber = numbers.tail.tail.headOption
+  def majorNumber = numbers(0) // size don't checked because at least one number required above 
+  def minorNumber = if (numbers.size > 1) numbers(1) else 0
+  def fixNumber = if (numbers.size > 2) numbers(2)
+
+  def normalNumber = (majorNumber, minorNumber, fixNumber)
 
   import VersionNumber._
 

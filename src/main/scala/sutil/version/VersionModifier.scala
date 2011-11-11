@@ -31,6 +31,7 @@ object VersionModifier {
   private lazy val tagOrder = (for ((group, index) ← tags zipWithIndex; tag ← group) yield tag -> index).toMap
 
   def apply(tag: String, version: VersionNumber): VersionModifier = VersionModifier(tag, Some(version))
+  
   def apply(string: String): VersionModifier = VersionParsers.modifier(string)
 
 }
