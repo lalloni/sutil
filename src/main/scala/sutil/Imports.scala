@@ -1,20 +1,21 @@
 package sutil
 
-import math.{DigitImports, MathImports}
-import path.{GlobImports, RichFileImports}
-import jdbc.JDBCImports
 import control.ControlImports
+import jdbc.JDBCImports
+import math.{ MathImports, DigitImports }
+import path.{ RichFileImports, GlobImports }
 import unit.binary.BinaryImports
+import version.VersionImports
 
-trait Imports
+private[sutil] trait Imports
 
 object Imports
   extends Imports
-          with RichFileImports
-          with GlobImports
-          with BinaryImports
-          with MathImports
-          with DigitImports
-          with ControlImports
-          with JDBCImports
-
+    with RichFileImports
+    with GlobImports
+    with BinaryImports
+    with MathImports
+    with DigitImports
+    with ControlImports
+    with JDBCImports
+    with VersionImports
