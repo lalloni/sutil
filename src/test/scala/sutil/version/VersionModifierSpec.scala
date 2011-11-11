@@ -11,10 +11,8 @@ class VersionModifierSpec extends Spec with ShouldMatchers {
   describe("A VersionModifier") {
 
     it("should sort appropriately") {
-      val mods = Seq[VersionModifier]("Final", "ALPHA3", "sp2", "snapshot", "cr1", "beta", "beta2")
-      println(mods)
-      println(mods.sorted)
-      mods.sorted should be (Seq(M("snapshot"), M("ALPHA", V(3)), M("beta"), M("beta", V(2)), M("cr", V(1)), M("Final")))
+      Seq[VersionModifier]("beta2", "Final", "ALPHA3", "sp2", "snapshot", "cr1", "beta")
+        .sorted should be (Seq[VersionModifier]("snapshot", "ALPHA3", "beta", "beta2", "cr1", "Final", "sp2"))
     }
 
   }
