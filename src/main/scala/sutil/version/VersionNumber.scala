@@ -1,5 +1,4 @@
 package sutil.version
-import scala.annotation.tailrec
 
 case class VersionNumber(numbers: Int*) extends Ordered[VersionNumber] {
 
@@ -14,8 +13,7 @@ case class VersionNumber(numbers: Int*) extends Ordered[VersionNumber] {
 
   import VersionNumber._
 
-  def compare(other: VersionNumber): Int =
-    (numbers.view zipAll (other.numbers, 0, 0)) map compared find not0 getOrElse 0
+  def compare(other: VersionNumber): Int = compareSeqs(numbers, other.numbers, 0)
 
   override lazy val toString = numbers mkString "."
 
@@ -30,18 +28,28 @@ case class VersionNumber(numbers: Int*) extends Ordered[VersionNumber] {
   }
 
   def incrementBy(version: VersionNumber): VersionNumber =
-    new VersionNumber(this.numbers zipAll (version.numbers, 0, 0) map added: _*)
+    new VersionNumber(this.numbers zipAll (version.numbers, 0, 0) map adder: _*)
 
-  def incrementAt(position: Int): VersionNumber = incrementAt(position, 1)
-  def incrementAt(position: VersionNumberPosition.Value, increment: Int = 1): VersionNumber = incrementAt(position.id, increment)
+  def incrementAt(position: Int): VersionNumber =
+    incrementAt(position, 1)
 
-  def incrementLast(increment: Int = 1): VersionNumber = incrementAt(size - 1, increment)
-  def incrementLast: VersionNumber = incrementLast(1)
+  def incrementAt(position: VersionNumberPosition.Value, increment: Int = 1): VersionNumber =
+    incrementAt(position.id, increment)
+
+  def incrementLast(increment: Int = 1): VersionNumber =
+    incrementAt(size - 1, increment)
+
+  def incrementLast: VersionNumber =
+    incrementLast(1)
 
 }
 
 object VersionNumber {
-  private val added = ((a: Int, b: Int) ⇒ a + b) tupled
-  private val compared = ((a: Int, b: Int) ⇒ a compare b) tupled
-  private val not0 = (a: Int) ⇒ a != 0
+
+  val Zero = VersionNumber(0)
+  val One = VersionNumber(1)
+
+  def apply(number: String): VersionNumber =
+    VersionParsers.number(number)
+
 }

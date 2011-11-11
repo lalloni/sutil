@@ -1,17 +1,17 @@
 package sutil
 
-package object version {
+package object version extends VersionImports {
 
-  type V = VersionNumber
-  val V = VersionNumber
-  val Major = VersionNumberPosition.Major
-  val Minor = VersionNumberPosition.Minor
-  val Fix = VersionNumberPosition.Fix
+  private[version] val adder =
+    ((a: Int, b: Int) ⇒ a + b) tupled
 
-  type M = VersionModifier
-  val M = VersionModifier
+  private[version] val not0 =
+    (a: Int) ⇒ a != 0
 
-  implicit def parseVersionModifier(string: String): VersionModifier = VersionParsers.modifier(string)
-  implicit def parseVersion(string: String): Version = VersionParsers.version(string)
+  private[version] def comparator[T: Ordering]: ((T, T)) ⇒ Int =
+    ((a: T, b: T) ⇒ implicitly[Ordering[T]].compare(a, b)) tupled
+
+  private[version] def compareSeqs[T: Ordering](a: Seq[T], b: Seq[T], zero: T): Int =
+    a zipAll (b, zero, zero) map comparator find not0 getOrElse 0
 
 }

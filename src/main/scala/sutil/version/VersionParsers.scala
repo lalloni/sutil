@@ -6,33 +6,33 @@ object VersionParsers {
 
   private object Parsers extends RegexParsers {
 
-    def number = """\d+""".r ^^ (_.toInt)
+    def natural = """\d+""".r ^^ { _.toInt }
 
     def tag = """[^.0-9-]+""".r
 
-    def numbers = rep1sep(number, ".") ^^ (VersionNumber(_: _*))
+    def number = rep1sep(natural, ".") ^^ { VersionNumber(_: _*) }
 
-    def modifier = tag ~ opt(numbers) ^^ { case tag ~ num ⇒ VersionModifier(tag, num) }
+    def modifier = tag ~ opt(number) ^^ { case tag ~ num ⇒ VersionModifier(tag, num) }
 
     def modifiers = rep1sep(modifier, "-")
 
-    def version = numbers ~ opt(("." | "-") ~> modifiers) ^^ { case nums ~ mods ⇒ Version(nums, mods.getOrElse(Nil): _*) }
+    def version = number ~ opt(("." | "-") ~> modifiers) ^^ { case nums ~ mods ⇒ Version(nums, mods.getOrElse(Nil): _*) }
 
     def get[T](parser: Parser[T], string: String): T =
       parseAll(parser, string) match {
-        case Success(e, rest) ⇒ e
-        case e: NoSuccess     ⇒ sys.error(e.toString)
+        case Success(result, _) ⇒ result
+        case failure: NoSuccess ⇒ sys.error(failure.toString)
       }
 
-    def version(string: String): Version = get(version, string)
+    def number(string: String): VersionNumber = get(number, string)
 
     def modifier(string: String): VersionModifier = get(modifier, string)
 
-    def numbers(string: String): VersionNumber = get(numbers, string)
+    def version(string: String): Version = get(version, string)
 
   }
 
-  def numbers(string: String) = Parsers.numbers(string)
+  def number(string: String) = Parsers.number(string)
 
   def version(string: String) = Parsers.version(string)
 
