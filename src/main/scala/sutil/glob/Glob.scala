@@ -5,17 +5,14 @@ import scala.util.matching.Regex
 
 object Glob {
   private val reserved = "\\+()^$.{}]|"
-  def apply(pattern: String) = new Glob(pattern)
 }
 
-class Glob(pattern: String) extends (File ⇒ Boolean) {
+case class Glob(pattern: String) extends (String ⇒ Boolean) {
 
   private lazy val r = globToRegex(pattern)
 
-  def apply(file: File): Boolean = matches(file)
-
-  def matches(name: String): Boolean = r.findPrefixMatchOf(name).isDefined
-  def matches(file: File): Boolean = matches(file.getPath)
+  def apply(string: String): Boolean = r.findPrefixMatchOf(string).isDefined
+  def ~(string: String): Boolean = apply(string)
 
   private def globToRegex(glob: String): Regex = {
 

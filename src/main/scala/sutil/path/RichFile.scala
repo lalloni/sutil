@@ -6,7 +6,7 @@ import sutil.glob.Glob
 
 case class RichFile(val file: File) {
   def /(name: String): File = new File(file, name)
-  def /(glob: Glob): Seq[File] = ls.filter(f ⇒ glob.matches(f.getName))
+  def /(glob: Glob): Seq[File] = ls.filter(f ⇒ glob(f.getName))
   def :+(suffix: String): File = new File(file.getPath + suffix)
   def +:(prefix: String): File = new File(file.getParent, prefix + file.getName)
   def ls: Seq[File] = Option(file.list).getOrElse(Array.empty).map(file / _).toSeq
@@ -17,6 +17,6 @@ case class RichFile(val file: File) {
 }
 
 class RichFiles(val files: Seq[File]) {
-  def /(glob: Glob): Seq[File] = files.flatMap(_ / glob)
   def /(name: String): Seq[File] = files.map(_ / name)
+  def /(glob: Glob): Seq[File] = files.flatMap(_ / glob)
 }

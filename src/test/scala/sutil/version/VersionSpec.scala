@@ -10,6 +10,24 @@ class VersionSpec extends Spec with ShouldMatchers {
 
   describe("A Version") {
 
+    it("should build an exclusive range") {
+      val range = V(N(1)) until V(N(2))
+      range contains V(N(0, 999)) should be (false)
+      range contains V(N(1)) should be (true)
+      range contains V(N(2)) should be (false)
+      range contains V(N(1, 999, 99)) should be (true)
+      range contains V(N(2, 0, 0, 0, 1)) should be (false)
+    }
+
+    it("should build an inclusive range") {
+      val range = V(N(1)) to V(N(2))
+      range contains V(N(0, 999)) should be (false)
+      range contains V(N(1)) should be (true)
+      range contains V(N(2)) should be (true)
+      range contains V(N(1, 999, 99)) should be (true)
+      range contains V(N(2, 0, 0, 0, 1)) should be (false)
+    }
+
     it("should sort appropriately") {
 
       val versions = Seq[Version]("1", "1.0", "1.1", "2", "0.1", "2-snapshot", "3", "3-sp4")

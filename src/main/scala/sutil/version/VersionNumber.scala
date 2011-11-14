@@ -5,9 +5,9 @@ case class VersionNumber(numbers: Int*) extends Ordered[VersionNumber] {
   require (!numbers.isEmpty, "Numbers must not be empty.")
   require (!numbers.exists(_ < 0), "Numbers must be positive or zero.")
 
-  def majorNumber = numbers(0) // size don't checked because at least one number required above 
-  def minorNumber = if (numbers.size > 1) numbers(1) else 0
-  def fixNumber = if (numbers.size > 2) numbers(2)
+  lazy val majorNumber: Int = numbers(0) // size don't checked because at least one number required above 
+  lazy val minorNumber: Int = if (numbers.size > 1) numbers(1) else 0
+  lazy val fixNumber: Int = if (numbers.size > 2) numbers(2) else 0
 
   def normalNumber = (majorNumber, minorNumber, fixNumber)
 
@@ -17,8 +17,8 @@ case class VersionNumber(numbers: Int*) extends Ordered[VersionNumber] {
 
   override lazy val toString = numbers mkString "."
 
-  def to(version: VersionNumber): VersionRange = VersionRange.Inclusive(this, version)
-  def until(version: VersionNumber): VersionRange = VersionRange.Exclusive(this, version)
+  def to(version: VersionNumber): VersionNumberRange = VersionNumberRange.Inclusive(this, version)
+  def until(version: VersionNumber): VersionNumberRange = VersionNumberRange.Exclusive(this, version)
 
   def size: Int = numbers.size
 

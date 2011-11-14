@@ -72,24 +72,6 @@ class VersionNumberSpec extends Spec with ShouldMatchers {
       N(1, 2, 3, 3, 3, 3, 3, 3).incrementBy(N(0, 1, 2)) should be (N(1, 3, 5, 3, 3, 3, 3, 3))
     }
 
-    it("should build an exclusive range") {
-      val range = N(1) until N(2)
-      range contains N(0, 999) should be (false)
-      range contains N(1) should be (true)
-      range contains N(2) should be (false)
-      range contains N(1, 999, 99) should be (true)
-      range contains N(2, 0, 0, 0, 1) should be (false)
-    }
-
-    it("should build an inclusive range") {
-      val range = N(1) to N(2)
-      range contains N(0, 999) should be (false)
-      range contains N(1) should be (true)
-      range contains N(2) should be (true)
-      range contains N(1, 999, 99) should be (true)
-      range contains N(2, 0, 0, 0, 1) should be (false)
-    }
-
   }
 
 }
