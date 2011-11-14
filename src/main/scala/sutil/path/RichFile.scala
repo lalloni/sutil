@@ -2,17 +2,11 @@ package sutil.path
 
 import java.io.File
 
-trait RichFileImports {
-  implicit def fileAsRichFile(file: File): RichFile = new RichFile(file)
-  implicit def richFileAsFile(file: RichFile): File = file.file
-  implicit def filesAsRichFiles(files: Seq[File]) = new RichFiles(files)
-  implicit def richFilesAsFiles(files: RichFiles) = files.files
-}
+import scala.Array.canBuildFrom
 
-object RichFile extends RichFileImports
+import sutil.glob.Glob
 
 case class RichFile(val file: File) {
-  import RichFile._
   def /(name: String): File = new File(file, name)
   def /(glob: Glob): Seq[File] = ls.filter(f ⇒ glob.matches(f.getName))
   def :+(suffix: String): File = new File(file.getPath + suffix)
@@ -25,7 +19,6 @@ case class RichFile(val file: File) {
 }
 
 class RichFiles(val files: Seq[File]) {
-  import RichFile._
   def /(glob: Glob): Seq[File] = files.flatMap(_ / glob)
   def /(name: String): Seq[File] = files.map(_ / name)
 }

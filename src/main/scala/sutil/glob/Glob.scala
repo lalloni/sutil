@@ -1,4 +1,4 @@
-package sutil.fs
+package sutil.glob
 
 import java.io.File
 import scala.util.matching.Regex
