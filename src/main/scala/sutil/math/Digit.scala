@@ -1,6 +1,7 @@
 package sutil.math
 
 import scala.math.{ScalaNumericConversions, ScalaNumber}
+
 import Stream._
 
 abstract sealed class Digit(val value: Int)
@@ -32,7 +33,7 @@ object Digit7 extends Digit(7)
 object Digit8 extends Digit(8)
 object Digit9 extends Digit(9)
 
-object Digit extends DigitImports {
+object Digit {
 
   def apply[T: Numeric](value: T): Digit =
     value match {
@@ -48,45 +49,4 @@ object Digit extends DigitImports {
       case 9 ⇒ Digit9
     }
   
-}
-
-trait DigitImports {
-
-  di ⇒
-
-  def digits(number: Long): Stream[Digit] =
-    cons(Digit(number % 10), if (number < 10) empty else digits(number / 10))
-
-  def pad(digits: Stream[Digit], size: Int): Stream[Digit] =
-    (digits.headOption, size) match {
-      case (Some(digit), size) ⇒ cons(digit, pad(digits.tail, size - 1))
-      case (None, size) if size > 0 ⇒ cons(Digit0, pad(empty, size - 1))
-      case (None, _) ⇒ empty
-    }
-
-  def unitsDigit(number: Long) = digits(number)(0)
-  def tensDigit(number: Long) = digits(number)(1)
-  def hundredsDigit(number: Long) = digits(number)(2)
-  def thousandsDigit(number: Long) = digits(number)(3)
-  def millionsDigit(number: Long) = digits(number)(6)
-  def trillionsDigit(number: Long) = digits(number)(9)
-
-  implicit def longdigits(number: Long): Stream[Digit] = digits(number)
-  implicit def intdigits(number: Int): Stream[Digit] = digits(number)
-  implicit def shortdigits(number: Short): Stream[Digit] = digits(number)
-
-  class CanBeDigit[N: Integral](n: N) {
-    val value = implicitly[Integral[N]].toLong(n)
-    def unitsDigit = di.unitsDigit(value)
-    def tensDigit = di.tensDigit(value)
-    def hundredsDigit = di.hundredsDigit(value)
-    def thousandsDigit = di.thousandsDigit(value)
-    def millionsDigit = di.millionsDigit(value)
-    def trillionsDigit = di.trillionsDigit(value)
-  }
-
-  implicit def integralsCanBeDigit[N: Integral](n: N) = new CanBeDigit(n)
-
-  implicit def digit2int(digit: Digit): Int = digit.value
-
 }

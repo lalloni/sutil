@@ -1,14 +1,17 @@
 package sutil.afip
 
-import sutil.math._
-import sutil.math.Digit._
+import org.junit.runner.RunWith
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.FunSuite
+import org.scalatest.junit.JUnitRunner
 
+import sutil.math._
+
+@RunWith(classOf[JUnitRunner])
 class CISpec extends FunSuite with ShouldMatchers {
 
   test("Verifier computation") {
-    CI.verifier(CI("20242643772")) should equal(Digit(2))
+    CI.verifier(20, 242643772) should be (Digit(2))
   }
 
   test("CI building") {
@@ -31,7 +34,7 @@ class CISpec extends FunSuite with ShouldMatchers {
     val cuit4 = CI(20, 24264377, Digit(2))
     check(cuit4, 20, 24264377, Digit(2))
 
-    //println(Seq(cuit1, cuit2, cuit3, cuit4, CI(20, 11111111, 2.toDigit), CI(20, 00000000, 1.toDigit)))
+    println(Seq(cuit1, cuit2, cuit3, cuit4, CI(20, 11111111, Digit2), CI(20, 00000000, Digit1)))
 
   }
 

@@ -3,7 +3,7 @@ package sutil
 import control.ControlImports
 import glob.GlobImports
 import jdbc.JDBCImports
-import math.{MathImports, DigitImports}
+import math.MathImports
 import path.PathImports
 import unit.binary.BinaryImports
 import version.VersionImports
@@ -16,7 +16,6 @@ object Imports
   with GlobImports
   with BinaryImports
   with MathImports
-  with DigitImports
   with ControlImports
   with JDBCImports
   with VersionImports

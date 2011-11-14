@@ -2,8 +2,6 @@ package sutil.path
 
 import java.io.File
 
-import scala.Array.canBuildFrom
-
 import sutil.glob.Glob
 
 case class RichFile(val file: File) {
