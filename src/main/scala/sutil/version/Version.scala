@@ -12,7 +12,7 @@ case class Version(number: VersionNumber, modifiers: VersionModifier*) extends O
 
   def to(version: Version): VersionRange = VersionRange.Inclusive(this, version)
   def until(version: Version): VersionRange = VersionRange.Exclusive(this, version)
-
+  
 }
 
 object Version {

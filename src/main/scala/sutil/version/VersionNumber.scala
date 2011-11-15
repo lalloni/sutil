@@ -22,18 +22,16 @@ case class VersionNumber(numbers: Int*) extends Ordered[VersionNumber] {
 
   def size: Int = numbers.size
 
-  def incrementAt(position: Int, increment: Int): VersionNumber = {
-    require (position >= 0 && position <= size, "Position must be between 1 and version number size.")
-    new VersionNumber((numbers.take(position) :+ (numbers(position) + 1)) ++ numbers.drop(position + increment): _*)
-  }
-
   def incrementBy(version: VersionNumber): VersionNumber =
     new VersionNumber(this.numbers zipAll (version.numbers, 0, 0) map adder: _*)
+
+  def incrementAt(position: Int, increment: Int): VersionNumber =
+    incrementBy(VersionNumber(Array.fill(position)(0) :+ increment: _*))
 
   def incrementAt(position: Int): VersionNumber =
     incrementAt(position, 1)
 
-  def incrementAt(position: VersionNumberPosition.Value, increment: Int = 1): VersionNumber =
+  def increment(position: VersionNumberPosition.Value, increment: Int = 1): VersionNumber =
     incrementAt(position.id, increment)
 
   def incrementLast(increment: Int = 1): VersionNumber =

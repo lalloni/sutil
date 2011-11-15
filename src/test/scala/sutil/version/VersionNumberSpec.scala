@@ -53,15 +53,15 @@ class VersionNumberSpec extends Spec with ShouldMatchers {
     }
 
     it("should increment correctly major number") {
-      N(1, 2, 3).incrementAt(VersionNumberPosition.Major) should be (N(2, 2, 3))
+      N(1, 2, 3).increment(VersionNumberPosition.Major) should be (N(2, 2, 3))
     }
 
     it("should increment correctly minor number") {
-      N(1, 2, 3).incrementAt(VersionNumberPosition.Minor) should be (N(1, 3, 3))
+      N(1, 2, 3).increment(VersionNumberPosition.Minor) should be (N(1, 3, 3))
     }
 
     it("should increment correctly fix number") {
-      N(1, 2, 3).incrementAt(VersionNumberPosition.Fix) should be (N(1, 2, 4))
+      N(1, 2, 3).increment(VersionNumberPosition.Fix) should be (N(1, 2, 4))
     }
 
     it("should increment correctly some deep number") {
@@ -70,6 +70,13 @@ class VersionNumberSpec extends Spec with ShouldMatchers {
 
     it("should increment correctly  by another version number") {
       N(1, 2, 3, 3, 3, 3, 3, 3).incrementBy(N(0, 1, 2)) should be (N(1, 3, 5, 3, 3, 3, 3, 3))
+    }
+
+    it ("should increment by test") {
+      VersionNumber(2, 1) increment Major should be (VersionNumber(3, 1))
+      VersionNumber(2, 1) increment Fix should be (VersionNumber(2, 1, 1))
+      VersionNumber(2, 1) incrementAt 5 should be (VersionNumber(2, 1, 0, 0, 0, 1))
+      VersionNumber(2, 1) incrementBy VersionNumber(0, 1, 1) should be (VersionNumber(2, 2, 1))
     }
 
   }
