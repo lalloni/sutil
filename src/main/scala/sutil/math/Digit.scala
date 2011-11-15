@@ -9,7 +9,7 @@ abstract sealed class Digit(val value: Int)
           with ScalaNumericConversions
           with Ordered[Digit] {
 
-  assert(0 <= value && value <= 9, "A digit must be greater than or equal to 0 and lesser than or equal to 9")
+  require(0 <= value && value <= 9, "A digit must be greater than or equal to 0 and lesser than or equal to 9")
 
   def intValue: Int = value
   def longValue: Long = value

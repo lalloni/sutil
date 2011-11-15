@@ -14,7 +14,8 @@ class CanBeDigits[N: Integral](n: N) {
   lazy val hundredsDigit: Digit = digits(2)
   lazy val thousandsDigit: Digit = digits(3)
   lazy val millionsDigit: Digit = digits(6)
-  lazy val trillionsDigit: Digit = digits(9)
+  lazy val billionsDigit: Digit = digits(9)
+  lazy val trillionsDigit: Digit = digits(12)
 
   /** Returns the sequence of digits ordered from least significative to most significative (units first).
     * {{{
@@ -24,7 +25,7 @@ class CanBeDigits[N: Integral](n: N) {
   lazy val digits: Seq[Digit] = {
     def digits(n: N): Stream[Digit] =
       Stream.cons(Digit(n % ten), if (n < ten) Stream.empty else digits(n / ten))
-    digits(n)
+    digits(n.abs)
   }
 
   def padLeft(size: Int): Seq[Digit] =

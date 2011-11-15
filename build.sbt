@@ -15,7 +15,8 @@ libraryDependencies ++= Seq (
     "org.joda" % "joda-convert" % "1.1" % "provided",
     "org.scalatest" %% "scalatest" % "1.6.1" % "test",
     "ch.qos.logback" % "logback-classic" % "1.0.0" % "test",
-    "junit" % "junit" % "4.8" % "test")
+    "junit" % "junit" % "4.8" % "test",
+    "org.scala-tools.testing" %% "scalacheck" % "1.9" % "test")
 
 publishMavenStyle := true
 
