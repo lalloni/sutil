@@ -99,4 +99,12 @@ VersionNumber(2,1) incrementAt 5 == VersionNumber(2,1,0,0,0,1)
 VersionNumber(2,1) incrementBy VersionNumber(0,1,1) == VersionNumber(2,2,1)
 ```
 
-And more: digit numeric type and extraction, binary units, unbounded lazy seqs of number increments and powers, object instance counting traits, scala query table segmentation, etc.
+More
+----
+
+* Digit numeric type and extraction
+* Binary units and formatting
+* Unbounded lazy seqs of number increments and powers
+* Object instance counting traits for instrumentation
+* Scala query table segmentation
+* etc.
