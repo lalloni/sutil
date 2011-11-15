@@ -34,7 +34,7 @@ Version string parsing and matching
 
 A set of classes to parse and match version strings in "common" formats.
 
-Classes modeling version strings and it components: 
+Classes modeling version strings and its components: 
 
 ```scala
 Version(VersionNumber(2, 1), VersionModifier("beta", VersionNumber(5)))   // version "2.1-beta5"
@@ -44,6 +44,12 @@ with shorthand synonyms:
 
 ```scala
 V(N(2, 1), M("beta", N(5)))   // version "2.1-beta5"
+```
+
+A Version can have n version modifiers:
+
+```scala
+V(N(2, 1), M("beta", N(5)), M("ubuntu", N(1)))   // version "2.1-beta5-ubuntu1"
 ```
 
 Nice version parsing from strings:
@@ -61,7 +67,7 @@ V(N(4, 1, 2), M("beta", N(2)), M("ubuntu", N(1))).toString == "4.1.2-beta2-ubunt
 All three Version, VersionNumber and VersionModifier implements Ordered, so it gets useful:
 
 ```scala
-Seq[Version]("3-sp4", "1", "1.0", "1.1", "2", "0.1", "2-snapshot", "3").sorted    
+Seq[Version]("3-sp4", "1", "1.0", "1.1", "2", "0.1", "2-snapshot", "3").sorted
   // returns Seq[Version]("0.1", "1", "1.0", "1.1", "2-snapshot", "2", "3", "3-sp4")
 ```
 
@@ -84,6 +90,13 @@ V("2.1") until V("3.0") contains V("3.0-snapshot")      // evaluates to true (tr
 
 (version and versionnumber ranges are not traversable since they are continuous).
 
-Some more features like version increments, version number positions, etc.
+Version number increments:
 
-To be continued...
+```scala
+VersionNumber(2,1) increment Major == VersionNumber(3,1)
+VersionNumber(2,1) increment Fix == VersionNumber(2,1,1)
+VersionNumber(2,1) incrementAt 5 == VersionNumber(2,1,0,0,0,1)
+VersionNumber(2,1) incrementBy VersionNumber(0,1,1) == VersionNumber(2,2,1)
+```
+
+And more: digit numeric type and extraction, binary units, unbounded lazy seqs of number increments and powers, object instance counting traits, scala query table segmentation, etc.
